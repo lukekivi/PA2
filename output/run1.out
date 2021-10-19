@@ -1,3 +1,8 @@
-make[1]: Entering directory '/home/kaush047/Desktop/projects/pa2/package'
+make[1]: Entering directory '/home/oscar/CSCI 4061/PA2'
 ./master input/ip1 Imagine
-make[1]: Leaving directory '/home/kaush047/Desktop/projects/pa2/package'
+Name of entry: Imagine_By_Lennon.txt
+THIS FILE (Imagine_By_Lennon.txt) IS A REGULAR FILE.
+Name of entry: ..
+Name of entry: .
+Child processes: 0 <- should be equal to number of directories
+make[1]: Leaving directory '/home/oscar/CSCI 4061/PA2'
