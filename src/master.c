@@ -11,6 +11,7 @@
 
 
 int main(int argc, char** argv){
+	extern int STRING_BUFFER;
 
 	if(argc != 3){
 
@@ -25,25 +26,18 @@ int main(int argc, char** argv){
 	pid_t pid;
 	int childProcesses = 0;
 
-	printf("GOT HERE: Variable declaration\n");
-
 	//Open root directory
 
 	DIR *dr = opendir(path);
-	printf("GOT HERE: Root directory opened\n");
-
 
 	// Iterate through root dir and spawn children as neccessary
 
 	struct dirent* entry;
 	while ((entry = readdir(dr)) != NULL) {
-		printf("Name of entry: %s\n", entry->d_name);
 		if (!strcmp(entry->d_name, ".") || !strcmp(entry->d_name, "..")) continue;
-		char entry_name[100] = {'\0'};
 
-		struct stat* st = (struct stat*)malloc(sizeof(struct stat));
-		char *filePath = entry_name;
-		stat(filePath, st);
+		char *filePath = (char*) malloc(sizeof(char) * STRING_BUFFER);
+		sprintf(filePath, "%s/%s", path, entry->d_name);
 
 		if (entry->d_type == DT_DIR) {
 			// create pipe
@@ -53,9 +47,8 @@ int main(int argc, char** argv){
 				// Child
 				// write to pipe from child process
 
-
-				if (execl("child", "child", path, pattern, NULL) == -1) {
-                    fprintf(stderr, "ERROR: Failed to exec child program.");
+				if (execl("child", "child", filePath, pattern, NULL) == -1) {
+                    fprintf(stderr, "ERROR: Failed to exec child program\n.");
                     exit(EXIT_FAILURE);}
 			} else {
 				childProcesses++; // increment here so root process knows.
@@ -68,7 +61,7 @@ int main(int argc, char** argv){
 	} else {
 		printf("THIS FILE IS A DIFFERENT FILE TYPE.\n");
 	}
-		free(st);
+	free(filePath);
 }
 	closedir(dr);
 
@@ -78,8 +71,7 @@ int main(int argc, char** argv){
 			//Do I/o redirection for child
 			//Exec child
 
-
-	printf("Child processes: %d <- should be equal to number of directories\n", childProcesses);
+	printf("Child processes: %d\n", childProcesses);
 
 	//Wait for all children to complete
 	for (int i = 0; i < childProcesses; i++) {

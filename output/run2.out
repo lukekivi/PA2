@@ -1,3 +1,8 @@
-make[1]: Entering directory '/home/kaush047/Desktop/projects/pa2/package'
+make[1]: Entering directory '/home/oscar/CSCI 4061/PA2'
 ./master input/ip2 I
-make[1]: Leaving directory '/home/kaush047/Desktop/projects/pa2/package'
+Child process: 743 received path: input/ip2folder1Name of entry: folder1
+THIS FILE (folder1) IS A DIRECTORY.
+Name of entry: ..
+Name of entry: .
+Child processes: 1 <- should be equal to number of directories
+make[1]: Leaving directory '/home/oscar/CSCI 4061/PA2'
