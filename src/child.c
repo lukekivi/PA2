@@ -29,7 +29,6 @@ void dirTraverse(const char *name, char * pattern)
 int main(int argc, char** argv){
 
 	if(argc !=3){
-	
 		fprintf(stderr,"Child process : %d recieved %d arguments, expected 3 \n",getpid(), argc);
 		fprintf(stderr,"Usage child.o [Directory Path] [Pattern] \n");
 		exit(EXIT_FAILURE);
@@ -37,12 +36,14 @@ int main(int argc, char** argv){
 	
 	char* path = argv[1];
 	char* pattern = argv[2];
+
+	printf("Child process: %d received path: %s\n", getpid(), path);
 	
-	close(STDIN_FILENO);
+	// close(STDIN_FILENO);
 	
 	dirTraverse(path,pattern);
 	
-	close(STDOUT_FILENO);
+	// close(STDOUT_FILENO);
 	
 	exit(EXIT_SUCCESS);
 }

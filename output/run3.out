@@ -1,3 +1,12 @@
-make[1]: Entering directory '/home/kaush047/Desktop/projects/pa2/package'
+make[1]: Entering directory '/home/oscar/CSCI 4061/PA2'
 ./master input/ip3 me
-make[1]: Leaving directory '/home/kaush047/Desktop/projects/pa2/package'
+Child process: 747 received path: input/ip3ComfortablyNumb.txtColdplayName of entry: ComfortablyNumb.txt
+THIS FILE (ComfortablyNumb.txt) IS A REGULAR FILE.
+Name of entry: Coldplay
+THIS FILE (Coldplay) IS A DIRECTORY.
+Name of entry: StairwayToHeaven.txt
+THIS FILE (StairwayToHeaven.txt) IS A REGULAR FILE.
+Name of entry: ..
+Name of entry: .
+Child processes: 1 <- should be equal to number of directories
+make[1]: Leaving directory '/home/oscar/CSCI 4061/PA2'

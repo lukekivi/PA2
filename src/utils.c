@@ -5,6 +5,7 @@
 #include<string.h>
 #include "utils.h"
 
+int STRING_BUFFER = 100;
 
 /*
 	Searches for pattern in file and writes the entire line containing the pattern to STDOUT

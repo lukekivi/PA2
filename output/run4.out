@@ -1,3 +1,24 @@
-make[1]: Entering directory '/home/kaush047/Desktop/projects/pa2/package'
+make[1]: Entering directory '/home/oscar/CSCI 4061/PA2'
 ./master input/ip4 they
-make[1]: Leaving directory '/home/kaush047/Desktop/projects/pa2/package'
+Child process: 751 received path: input/ip4folder4Child process: 752 received path: input/ip4folder4Folder2Child process: 753 received path: input/ip4folder4Folder2folder1Child process: 757 received path: input/ip4folder4Folder2folder1folder3folder5LegendsNeverDie.txtfolder7VivaLaVida.txtfolder6Child process: 754 received path: input/ip4folder4Folder2folder1folder3Child process: 756 received path: input/ip4folder4Folder2folder1folder3folder5LegendsNeverDie.txtfolder7Child process: 755 received path: input/ip4folder4Folder2folder1folder3folder5Name of entry: folder4
+THIS FILE (folder4) IS A DIRECTORY.
+Name of entry: Folder2
+THIS FILE (Folder2) IS A DIRECTORY.
+Name of entry: folder1
+THIS FILE (folder1) IS A DIRECTORY.
+Name of entry: folder3
+THIS FILE (folder3) IS A DIRECTORY.
+Name of entry: folder5
+THIS FILE (folder5) IS A DIRECTORY.
+Name of entry: LegendsNeverDie.txt
+THIS FILE (LegendsNeverDie.txt) IS A REGULAR FILE.
+Name of entry: folder7
+THIS FILE (folder7) IS A DIRECTORY.
+Name of entry: VivaLaVida.txt
+THIS FILE (VivaLaVida.txt) IS A REGULAR FILE.
+Name of entry: ..
+Name of entry: .
+Name of entry: folder6
+THIS FILE (folder6) IS A DIRECTORY.
+Child processes: 7 <- should be equal to number of directories
+make[1]: Leaving directory '/home/oscar/CSCI 4061/PA2'
