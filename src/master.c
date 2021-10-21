@@ -9,9 +9,11 @@
 #include "utils.h"
 
 
-
 int main(int argc, char** argv){
 	extern int STRING_BUFFER;
+	extern int WRITE_FD;
+
+	int dataSize = sizeof(char) * STRING_BUFFER;
 
 	if(argc != 3){
 
@@ -29,9 +31,9 @@ int main(int argc, char** argv){
 	//Open root directory
 
 	DIR *dr = opendir(path);
+	int fds[2];
 
 	// Iterate through root dir and spawn children as neccessary
-
 	struct dirent* entry;
 	while ((entry = readdir(dr)) != NULL) {
 		if (!strcmp(entry->d_name, ".") || !strcmp(entry->d_name, "..")) continue;
@@ -41,20 +43,46 @@ int main(int argc, char** argv){
 
 		if (entry->d_type == DT_DIR) {
 			// create pipe
-			printf("THIS FILE (%s) IS A DIRECTORY.\n", entry->d_name);
-			pid = fork();
-			if (pid == 0) {
+			if (pipe(fds) < 0) {
+		        fprintf(stderr, "ERROR: Failed to open pipe\n");
+		        exit(EXIT_FAILURE);
+    		}
+
+			if ((pid = fork()) == -1) {
+				fprintf(stderr, "ERROR: Failed to fork\n");
+		        exit(EXIT_FAILURE);
+			} else if (pid == 0) {
 				// Child
 				// write to pipe from child process
+				printf("%d\n", WRITE_FD);
+				if (dup2(fds[1], WRITE_FD) == -1) {
+					fprintf(stderr, "ERROR: Failed to exec child program\n.");
+                    exit(EXIT_FAILURE);
+				}
+				close(fds[0]);
+				close(fds[1]);
 
 				if (execl("child", "child", filePath, pattern, NULL) == -1) {
                     fprintf(stderr, "ERROR: Failed to exec child program\n.");
-                    exit(EXIT_FAILURE);}
+                    exit(EXIT_FAILURE);
+				}		
 			} else {
 				childProcesses++; // increment here so root process knows.
 				// Parent
 				// read from pipe
-			}
+				close(fds[1]);
+				char* rcv_buffer = (char *) malloc(sizeof(char) * STRING_BUFFER);
+				
+        		if (read(fds[0], rcv_buffer, dataSize) < 0) {
+            		fprintf(stderr, "ERROR: Failed to read\n");
+        		} else {
+					printf("Child info from parent: %s", rcv_buffer);
+				}
+
+				// done reading
+				close(fds[1]);
+				free(rcv_buffer);
+			} 
 	} else if (entry->d_type == DT_REG) {
 		printf("THIS FILE (%s) IS A REGULAR FILE.\n", entry->d_name);
 		//searchPatternInFile(entry, pattern);
