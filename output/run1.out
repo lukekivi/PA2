@@ -1,8 +1,5 @@
 make[1]: Entering directory '/home/oscar/CSCI 4061/PA2'
 ./master input/ip1 Imagine
-Name of entry: Imagine_By_Lennon.txt
 THIS FILE (Imagine_By_Lennon.txt) IS A REGULAR FILE.
-Name of entry: ..
-Name of entry: .
-Child processes: 0 <- should be equal to number of directories
+Child processes: 0
 make[1]: Leaving directory '/home/oscar/CSCI 4061/PA2'

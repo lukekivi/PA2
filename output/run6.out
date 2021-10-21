@@ -1,10 +1,7 @@
 make[1]: Entering directory '/home/oscar/CSCI 4061/PA2'
 ./master input/ip6 just
-Child process: 764 received path: input/ip6Warriors.txtf1Name of entry: Warriors.txt
+Child process: 868 received path: input/ip6/f1
 THIS FILE (Warriors.txt) IS A REGULAR FILE.
-Name of entry: f1
 THIS FILE (f1) IS A DIRECTORY.
-Name of entry: ..
-Name of entry: .
-Child processes: 1 <- should be equal to number of directories
+Child processes: 1
 make[1]: Leaving directory '/home/oscar/CSCI 4061/PA2'

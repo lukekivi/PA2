@@ -1,12 +1,7 @@
 make[1]: Entering directory '/home/oscar/CSCI 4061/PA2'
 ./master input/ip5 us
-Name of entry: Warriors.txt
 THIS FILE (Warriors.txt) IS A REGULAR FILE.
-Name of entry: LegendsSym.txt
 THIS FILE (LegendsSym.txt) IS A REGULAR FILE.
-Name of entry: LegendsNeverDie.txt
 THIS FILE (LegendsNeverDie.txt) IS A REGULAR FILE.
-Name of entry: ..
-Name of entry: .
-Child processes: 0 <- should be equal to number of directories
+Child processes: 0
 make[1]: Leaving directory '/home/oscar/CSCI 4061/PA2'

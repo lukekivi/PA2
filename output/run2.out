@@ -1,8 +1,6 @@
 make[1]: Entering directory '/home/oscar/CSCI 4061/PA2'
 ./master input/ip2 I
-Child process: 743 received path: input/ip2folder1Name of entry: folder1
+Child process: 847 received path: input/ip2/folder1
 THIS FILE (folder1) IS A DIRECTORY.
-Name of entry: ..
-Name of entry: .
-Child processes: 1 <- should be equal to number of directories
+Child processes: 1
 make[1]: Leaving directory '/home/oscar/CSCI 4061/PA2'
