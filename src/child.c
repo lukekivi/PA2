@@ -27,6 +27,10 @@ void dirTraverse(const char *name, char * pattern)
 }
 
 int main(int argc, char** argv){
+	extern int STRING_BUFFER;
+	extern int WRITE_FD;
+
+	int dataSize = sizeof(char) * STRING_BUFFER;
 
 	if(argc !=3){
 		fprintf(stderr,"Child process : %d recieved %d arguments, expected 3 \n",getpid(), argc);
@@ -36,14 +40,14 @@ int main(int argc, char** argv){
 	
 	char* path = argv[1];
 	char* pattern = argv[2];
-
-	printf("Child process: %d received path: %s\n", getpid(), path);
 	
-	// close(STDIN_FILENO);
+	char* out_buffer = (char*) malloc(dataSize);
+	sprintf(out_buffer, "Child process: %d received path: %s\n", getpid(), path);
+
+	write(WRITE_FD, out_buffer, dataSize);
+	
+	close(WRITE_FD);
 	
 	dirTraverse(path,pattern);
-	
-	// close(STDOUT_FILENO);
-	
-	exit(EXIT_SUCCESS);
+	return(EXIT_SUCCESS);
 }
