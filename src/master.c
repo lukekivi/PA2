@@ -85,7 +85,7 @@ int main(int argc, char** argv){
 			} 
 	} else if (entry->d_type == DT_REG) {
 		printf("THIS FILE (%s) IS A REGULAR FILE.\n", entry->d_name);
-		//searchPatternInFile(entry, pattern);
+		searchPatternInFile(filePath, pattern);
 	} else {
 		printf("THIS FILE IS A DIFFERENT FILE TYPE.\n");
 	}
@@ -108,6 +108,8 @@ int main(int argc, char** argv){
 
 	//Read pipes of all children and print to stdout
 	//Assumption : Pipe never gets full
+
+	close(WRITE_FD);
 
 	return 0;
 }

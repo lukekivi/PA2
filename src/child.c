@@ -60,8 +60,6 @@ int main(int argc, char** argv){
 
 	write(WRITE_FD, out_buffer, dataSize);
 
-	close(WRITE_FD);
-
 	dirTraverse(path,pattern);
 	return(EXIT_SUCCESS);
 }

@@ -15,34 +15,28 @@ const int WRITE_FD = STDOUT_FILENO;
 		path - path to the file
 		pattern : pattern to be searched
 */
-void searchPatternInFile(char* path, char* pattern){
+void searchPatternInFile(char* path, char* pattern) {
 
-
-	FILE * fp;
-
-	fp = fopen(path, "r");
-	if (fp == NULL){
-		fprintf(stderr,"Error opening file: %s \n",path);
+	FILE * fd_in;
+	
+	if ((fd_in = fopen(path, "r")) == NULL) {
+		fprintf(stderr,"Error opening file: %s\n",path);
 		return;
 	}
 
 	char buffer[STRING_BUFFER];
-	char * line = (char*)malloc(sizeof(char)*STRING_BUFFER);
-	char *filePath = (char*) malloc(sizeof(char) * STRING_BUFFER);
+	char * line = NULL;
 
-	while (fgets(buffer, STRING_BUFFER, fp) != NULL) {
+	//Read file line by line and check if pattern exists in the line
+	while (fgets(buffer, STRING_BUFFER, fd_in) != NULL) {
 		if((line = strstr(buffer, pattern)) != NULL) {
 				if (*(line-1) == ' ' || (strcmp(buffer, line) == 0)) //make sure the substring is actually a word and not just part of a word.
 				{
-						printf("%s: %s\n", path, buffer);
+						fprintf(stdout, "%s: %s", path, buffer);
 				}
 		}
 	}
 
-	//Read file line by line and check if pattern exists in the line
-
 	//Close fp
-	//free(line);                // these frees cause an error for some reason in run3?
-	//free(filePath);
-	fclose(fp);
+	fclose(fd_in);
 }
