@@ -12,6 +12,7 @@
 int main(int argc, char** argv){
 	extern int STRING_BUFFER;
 	extern int WRITE_FD;
+	const int MAX_NUMBER_SUB_DIRS = 10;
 
 	int dataSize = sizeof(char) * STRING_BUFFER;
 
@@ -31,7 +32,9 @@ int main(int argc, char** argv){
 	//Open root directory
 
 	DIR *dr = opendir(path);
-	int fds[2];
+	int fds[MAX_NUMBER_SUB_DIRS][2];
+	int subDirSizes[MAX_NUMBER_SUB_DIRS];
+	int numberOfSubDirs = 0;
 
 	// Iterate through root dir and spawn children as neccessary
 	struct dirent* entry;
@@ -41,75 +44,80 @@ int main(int argc, char** argv){
 		char *filePath = (char*) malloc(sizeof(char) * STRING_BUFFER);
 		sprintf(filePath, "%s/%s", path, entry->d_name);
 
-		if (entry->d_type == DT_DIR) {
-			// create pipe
-			if (pipe(fds) < 0) {
-		        fprintf(stderr, "ERROR: Failed to open pipe\n");
-		        exit(EXIT_FAILURE);
-    		}
+		struct stat* entryStats = (struct stat*) malloc(sizeof(struct stat));
+		lstat(filePath, entryStats);
+		
+		//Process each file/directory in the root dir
+		if(!S_ISLNK(entryStats->st_mode)) {
 
-			if ((pid = fork()) == -1) {
-				fprintf(stderr, "ERROR: Failed to fork\n");
-		        exit(EXIT_FAILURE);
-			} else if (pid == 0) {
-				// Child
-				// write to pipe from child process
-				printf("%d\n", WRITE_FD);
-				if (dup2(fds[1], WRITE_FD) == -1) {
-					fprintf(stderr, "ERROR: Failed to exec child program\n.");
-                    exit(EXIT_FAILURE);
-				}
-				close(fds[0]);
-				close(fds[1]);
+			//create a child if the file is directory
+			if (entry->d_type == DT_DIR) {
+				subDirSizes[numberOfSubDirs] = entryStats->st_size;
 
-				if (execl("child", "child", filePath, pattern, NULL) == -1) {
-                    fprintf(stderr, "ERROR: Failed to exec child program\n.");
-                    exit(EXIT_FAILURE);
-				}		
-			} else {
-				childProcesses++; // increment here so root process knows.
-				// Parent
-				// read from pipe
-				close(fds[1]);
-				char* rcv_buffer = (char *) malloc(sizeof(char) * STRING_BUFFER);
-				
-        		if (read(fds[0], rcv_buffer, dataSize) < 0) {
-            		fprintf(stderr, "ERROR: Failed to read\n");
-        		} else {
-					printf("Child info from parent: %s", rcv_buffer);
+				// create pipe
+				if (pipe(fds[numberOfSubDirs]) < 0) {
+					fprintf(stderr, "ERROR: Failed to open pipe\n");
+					exit(EXIT_FAILURE);
 				}
 
-				// done reading
-				close(fds[1]);
-				free(rcv_buffer);
-			} 
-	} else if (entry->d_type == DT_REG) {
-		printf("THIS FILE (%s) IS A REGULAR FILE.\n", entry->d_name);
-		searchPatternInFile(filePath, pattern);
+				if ((pid = fork()) == -1) {
+					fprintf(stderr, "ERROR: Failed to fork\n");
+					exit(EXIT_FAILURE);
+				} else if (pid == 0) {
+
+					//Do I/o redirection for child
+					if (dup2(fds[numberOfSubDirs][1], WRITE_FD) == -1) {
+						fprintf(stderr, "ERROR: Failed to exec child program\n.");
+						exit(EXIT_FAILURE);
+					}
+					close(fds[numberOfSubDirs][0]);
+					close(fds[numberOfSubDirs][1]);
+
+					//Exec child
+					if (execl("child", "child", filePath, pattern, NULL) == -1) {
+						fprintf(stderr, "ERROR: Failed to exec child program\n.");
+						exit(EXIT_FAILURE);
+					}		
+				} else {
+					childProcesses++; // increment here so root process knows.
+					// Parent
+					// read from pipe
+					close(fds[numberOfSubDirs][1]);
+				} 
+			numberOfSubDirs += 1;
+		} else {
+			// This is a non-directory and non-symbolic link file
+			searchPatternInFile(filePath, pattern);
+		} 
 	} else {
-		printf("THIS FILE IS A DIFFERENT FILE TYPE.\n");
+		// This means a symbolic link was found
+		printf("%s was a symbolic link", filePath);
 	}
+	free(entryStats);
 	free(filePath);
 }
 	closedir(dr);
-
-		//Process each file/directory in the root dir
-		//create a child if the file is directory
-			//Create a pipe
-			//Do I/o redirection for child
-			//Exec child
-
-	printf("Child processes: %d\n", childProcesses);
 
 	//Wait for all children to complete
 	for (int i = 0; i < childProcesses; i++) {
 		wait(NULL);
 	}
 
+
 	//Read pipes of all children and print to stdout
 	//Assumption : Pipe never gets full
+	for (int i = 0; i < numberOfSubDirs; i++) {
+		int bufferSize = sizeof(char) * subDirSizes[i] * 2;
+		char* rcv_buffer = (char*) malloc(bufferSize);
+		if(read(fds[i][0], rcv_buffer, bufferSize) > 0) {	
+			printf("%s", rcv_buffer);
+		} else {
+			fprintf(stderr, "ERROR: Failed to read from pipe.\n");
+		}
 
-	close(WRITE_FD);
+		// done reading
+		close(fds[i][0]);
+	}
 
 	return 0;
 }
