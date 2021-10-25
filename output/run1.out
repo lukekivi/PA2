@@ -1,5 +1,9 @@
 make[1]: Entering directory '/home/oscar/CSCI 4061/PA2'
 ./master input/ip1 Imagine
-THIS FILE (Imagine_By_Lennon.txt) IS A REGULAR FILE.
-Child processes: 0
+input/ip1/Imagine_By_Lennon.txt: Imagine there's no heaven
+input/ip1/Imagine_By_Lennon.txt: Imagine all the people
+input/ip1/Imagine_By_Lennon.txt: Imagine there's no countries
+input/ip1/Imagine_By_Lennon.txt: Imagine all the people
+input/ip1/Imagine_By_Lennon.txt: Imagine no possessions
+input/ip1/Imagine_By_Lennon.txt: Imagine all the people
 make[1]: Leaving directory '/home/oscar/CSCI 4061/PA2'

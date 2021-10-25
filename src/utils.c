@@ -33,11 +33,12 @@ void searchPatternInFile(char* path, char* pattern) {
 	//Read file line by line and check if pattern exists in the line
 	while (nbytes = getline(&line, &stringBuffer, fd_in) > 0) {
 		if((subLine = strstr(line, pattern)) != NULL) {
-				if (*(subLine-1) == ' ' || (strcmp(subLine, line) == 0)) //make sure the substring is actually a word and not just part of a word.
-				{
+			if (*(subLine-1) == ' ' || (strcmp(subLine, line) == 0)) { //make sure the substring is actually a word and not just part of a word.
 					char buffer[STRING_BUFFER];
 					sprintf(buffer, "%s: %s", path, line);
-					write(WRITE_FD, buffer, strlen(buffer));				}
+					write(WRITE_FD, buffer, strlen(buffer));				
+					fprintf(stderr, "%s", buffer);
+			}
 		}
 	}
 

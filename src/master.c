@@ -13,11 +13,11 @@ int main(int argc, char** argv){
 	extern int STRING_BUFFER;
 	extern int WRITE_FD;
 	const int MAX_NUMBER_SUB_DIRS = 10;
+	const int PIPE_READ_SIZE = 10000;
 
 	int dataSize = sizeof(char) * STRING_BUFFER;
 
 	if(argc != 3){
-
 		fprintf(stderr,"Usage ./a.out [Path to Directory] [Pattern to search] \n");
 		exit(EXIT_FAILURE);
 	}
@@ -33,14 +33,14 @@ int main(int argc, char** argv){
 
 	DIR *dr = opendir(path);
 	int fds[MAX_NUMBER_SUB_DIRS][2];
-	int subDirSizes[MAX_NUMBER_SUB_DIRS];
 	int numberOfSubDirs = 0;
+
 
 	// Iterate through root dir and spawn children as neccessary
 	struct dirent* entry;
 	while ((entry = readdir(dr)) != NULL) {
 		if (!strcmp(entry->d_name, ".") || !strcmp(entry->d_name, "..")) continue;
-
+		
 		char *filePath = (char*) malloc(sizeof(char) * STRING_BUFFER);
 		sprintf(filePath, "%s/%s", path, entry->d_name);
 
@@ -52,7 +52,6 @@ int main(int argc, char** argv){
 
 			//create a child if the file is directory
 			if (entry->d_type == DT_DIR) {
-				subDirSizes[numberOfSubDirs] = entryStats->st_size;
 
 				// create pipe
 				if (pipe(fds[numberOfSubDirs]) < 0) {
@@ -91,7 +90,7 @@ int main(int argc, char** argv){
 		} 
 	} else {
 		// This means a symbolic link was found
-		printf("%s was a symbolic link", filePath);
+		printf("%s was a symbolic link\n", filePath);
 	}
 	free(entryStats);
 	free(filePath);
@@ -103,21 +102,19 @@ int main(int argc, char** argv){
 		wait(NULL);
 	}
 
-
+	long int buffSize = sizeof(char) * PIPE_READ_SIZE;
+	char* rcv_buffer = (char*) malloc(sizeof(char) * buffSize);
 	//Read pipes of all children and print to stdout
 	//Assumption : Pipe never gets full
 	for (int i = 0; i < numberOfSubDirs; i++) {
-		int bufferSize = sizeof(char) * subDirSizes[i] * 2;
-		char* rcv_buffer = (char*) malloc(bufferSize);
-		if(read(fds[i][0], rcv_buffer, bufferSize) > 0) {	
-			printf("%s", rcv_buffer);
-		} else {
-			fprintf(stderr, "ERROR: Failed to read from pipe.\n");
+		while (read(fds[i][0], rcv_buffer, buffSize) > 0) {	
+				printf("%s", rcv_buffer);
 		}
-
 		// done reading
 		close(fds[i][0]);
 	}
+
+	free(rcv_buffer);
 
 	return 0;
 }

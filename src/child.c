@@ -36,13 +36,15 @@ void dirTraverse(const char *name, char * pattern)
 
 		if(!S_ISLNK(entryStats->st_mode)) {			
 			if (entry->d_type == DT_DIR) {
-					dirTraverse(filePath, pattern);
+				dirTraverse(filePath, pattern);
 			} else {
 				searchPatternInFile(filePath, pattern);
 			}
 		} else {
 			// This means a symbolic link was found
-			fprintf(stdout, "%s was a symbolic link", filePath);
+			char buffer[STRING_BUFFER];
+			sprintf(buffer, "%s was a symbolic link", filePath);
+			write(STDOUT_FILENO, buffer, strlen(buffer));
 		}
 		free(filePath);
 		free(entryStats);
