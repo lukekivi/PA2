@@ -63,10 +63,14 @@ int main(int argc, char** argv){
 
 	char* path = argv[1];
 	char* pattern = argv[2];
+	char buffer[STRING_BUFFER];
 	
-	fprintf(stdout, "Child process: %d received path: %s\n", getpid(), path);
+	sprintf(buffer, "Child process: %d received path: %s\n", getpid(), path);
+
+	write(WRITE_FD, buffer, sizeof(buffer));
 
 	dirTraverse(path,pattern);
+	close(WRITE_FD);
 
 	return(EXIT_SUCCESS);
 }
