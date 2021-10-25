@@ -1,7 +1,5 @@
 make[1]: Entering directory '/home/oscar/CSCI 4061/PA2'
 ./master input/ip6 just
-Child process: 868 received path: input/ip6/f1
-THIS FILE (Warriors.txt) IS A REGULAR FILE.
-THIS FILE (f1) IS A DIRECTORY.
-Child processes: 1
+input/ip6/Warriors.txt: But it was just a dream!
+Child process: 27772 received path: input/ip6/f1
 make[1]: Leaving directory '/home/oscar/CSCI 4061/PA2'

@@ -1,20 +1,13 @@
 make[1]: Entering directory '/home/oscar/CSCI 4061/PA2'
 ./master input/ip4 they
-Child process: 856 received path: input/ip4/Folder2
-Child process: 855 received path: input/ip4/folder4
-Child process: 857 received path: input/ip4/folder1
-Child process: 859 received path: input/ip4/folder5
-Child process: 861 received path: input/ip4/folder6
-Child process: 860 received path: input/ip4/folder7
-Child process: 858 received path: input/ip4/folder3
-THIS FILE (folder4) IS A DIRECTORY.
-THIS FILE (Folder2) IS A DIRECTORY.
-THIS FILE (folder1) IS A DIRECTORY.
-THIS FILE (folder3) IS A DIRECTORY.
-THIS FILE (folder5) IS A DIRECTORY.
-THIS FILE (LegendsNeverDie.txt) IS A REGULAR FILE.
-THIS FILE (folder7) IS A DIRECTORY.
-THIS FILE (VivaLaVida.txt) IS A REGULAR FILE.
-THIS FILE (folder6) IS A DIRECTORY.
-Child processes: 7
+input/ip4/LegendsNeverDie.txt: It's deep in their bones, they'll run into smoke
+input/ip4/LegendsNeverDie.txt: When everything's lost, they pick up their hearts
+input/ip4/LegendsNeverDie.txt: Before it all starts, they suffer through harm
+Child process: 27759 received path: input/ip4/folder4
+Child process: 27760 received path: input/ip4/Folder2
+Child process: 27761 received path: input/ip4/folder1
+Child process: 27762 received path: input/ip4/folder3
+Child process: 27763 received path: input/ip4/folder5
+Child process: 27764 received path: input/ip4/folder7
+Child process: 27765 received path: input/ip4/folder6
 make[1]: Leaving directory '/home/oscar/CSCI 4061/PA2'

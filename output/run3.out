@@ -1,8 +1,7 @@
 make[1]: Entering directory '/home/oscar/CSCI 4061/PA2'
 ./master input/ip3 me
-Child process: 851 received path: input/ip3/Coldplay
-THIS FILE (ComfortablyNumb.txt) IS A REGULAR FILE.
-THIS FILE (Coldplay) IS A DIRECTORY.
-THIS FILE (StairwayToHeaven.txt) IS A REGULAR FILE.
-Child processes: 1
+input/ip3/ComfortablyNumb.txt: Just nod if you can hear me
+input/ip3/ComfortablyNumb.txt: Can you show me where it hurts?
+input/ip3/StairwayToHeaven.txt: And it makes me wonder
+Child process: 27755 received path: input/ip3/Coldplay
 make[1]: Leaving directory '/home/oscar/CSCI 4061/PA2'

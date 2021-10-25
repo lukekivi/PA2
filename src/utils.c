@@ -5,7 +5,7 @@
 #include<string.h>
 #include "utils.h"
 
-const int STRING_BUFFER = 100;
+const int STRING_BUFFER = 1001;
 const int WRITE_FD = STDOUT_FILENO;
 
 /*
@@ -24,16 +24,21 @@ void searchPatternInFile(char* path, char* pattern) {
 		return;
 	}
 
-	char buffer[STRING_BUFFER];
+	size_t stringBuffer = STRING_BUFFER;
+
 	char * line = NULL;
+	char * subLine = NULL;
+	int nbytes;
 
 	//Read file line by line and check if pattern exists in the line
-	while (fgets(buffer, STRING_BUFFER, fd_in) != NULL) {
-		if((line = strstr(buffer, pattern)) != NULL) {
-				if (*(line-1) == ' ' || (strcmp(buffer, line) == 0)) //make sure the substring is actually a word and not just part of a word.
-				{
-						fprintf(stdout, "%s: %s", path, buffer);
-				}
+	while (nbytes = getline(&line, &stringBuffer, fd_in) > 0) {
+		if((subLine = strstr(line, pattern)) != NULL) {
+			if (*(subLine-1) == ' ' || (strcmp(subLine, line) == 0)) { //make sure the substring is actually a word and not just part of a word.
+					char buffer[STRING_BUFFER];
+					sprintf(buffer, "%s: %s", path, line);
+					write(WRITE_FD, buffer, strlen(buffer));				
+					fprintf(stderr, "%s", buffer);
+			}
 		}
 	}
 
