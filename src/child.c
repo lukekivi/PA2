@@ -70,7 +70,6 @@ int main(int argc, char** argv){
 	char buffer[MAX_PATH_LENGTH];
 	
 	sprintf(buffer, "Child process: %d received path: %s\n", getpid(), path);
-
 	write(WRITE_FD, buffer, strlen(buffer));
 
 	dirTraverse(path,pattern);

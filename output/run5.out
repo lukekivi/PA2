@@ -1,3 +1,4 @@
 make[1]: Entering directory '/home/oscar/CSCI 4061/PA2'
 ./master input/ip5 us
-input/ip5/LegendsSym.txt was a symbolic linkmake[1]: Leaving directory '/home/oscar/CSCI 4061/PA2'
+input/ip5/LegendsSym.txt was a symbolic link
+make[1]: Leaving directory '/home/oscar/CSCI 4061/PA2'

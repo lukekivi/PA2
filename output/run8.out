@@ -1,4 +1,12 @@
 make[1]: Entering directory '/home/oscar/CSCI 4061/PA2'
 ./master input/ip8 word
-Child process: 27779 received path: input/ip8/folder1
+Child process: 7335 received path: input/ip8/folder1
+input/ip8/folder1/folder2/Viva2.txt: Seas would rise when I gave the word
+input/ip8/folder1/folder2/Viva2.txt: Never an honest word
+input/ip8/folder1/folder2/Viva2.txt: Never an honest word
+input/ip8/folder1/folder2/Viva2.txt: Never an honest word
+input/ip8/folder1/VivaLaVida.txt: Seas would rise when I gave the word
+input/ip8/folder1/VivaLaVida.txt: Never an honest word
+input/ip8/folder1/VivaLaVida.txt: Never an honest word
+input/ip8/folder1/VivaLaVida.txt: Never an honest word
 make[1]: Leaving directory '/home/oscar/CSCI 4061/PA2'
