@@ -1,11 +1,10 @@
-#include<stdio.h>
+#include <stdio.h>
 #include <sys/types.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include<string.h>
+#include <string.h>
 #include "utils.h"
 
-const int STRING_BUFFER = 1001;
 const int WRITE_FD = STDOUT_FILENO;
 
 /*
@@ -24,7 +23,7 @@ void searchPatternInFile(char* path, char* pattern) {
 		return;
 	}
 
-	size_t stringBuffer = STRING_BUFFER;
+	size_t stringBuffer = MAX_PATH_LENGTH*2;
 
 	char * line = NULL;
 	char * subLine = NULL;
@@ -34,7 +33,7 @@ void searchPatternInFile(char* path, char* pattern) {
 	while (nbytes = getline(&line, &stringBuffer, fd_in) > 0) {
 		if((subLine = strstr(line, pattern)) != NULL) {
 			if (*(subLine-1) == ' ' || (strcmp(subLine, line) == 0)) { //make sure the substring is actually a word and not just part of a word.
-					char buffer[STRING_BUFFER];
+					char buffer[MAX_PATH_LENGTH];
 					sprintf(buffer, "%s: %s", path, line);
 					write(WRITE_FD, buffer, strlen(buffer));				
 					fprintf(stderr, "%s", buffer);
@@ -44,4 +43,15 @@ void searchPatternInFile(char* path, char* pattern) {
 
 	//Close fp
 	fclose(fd_in);
+}
+
+
+int addINodeToListIfUnique(ino_t arr[], int size, int end, ino_t iNode) {
+	for (int i = 0; i < end+1; i++) {
+		if (iNode == arr[i]) {
+			return 0;
+		}
+	}
+	arr[end+1] = iNode;
+	return 1;
 }

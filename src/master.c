@@ -10,12 +10,7 @@
 
 
 int main(int argc, char** argv){
-	extern int STRING_BUFFER;
 	extern int WRITE_FD;
-	const int MAX_NUMBER_SUB_DIRS = 10;
-	const int PIPE_READ_SIZE = 10000;
-
-	int dataSize = sizeof(char) * STRING_BUFFER;
 
 	if(argc != 3){
 		fprintf(stderr,"Usage ./a.out [Path to Directory] [Pattern to search] \n");
@@ -32,16 +27,20 @@ int main(int argc, char** argv){
 	//Open root directory
 
 	DIR *dr = opendir(path);
-	int fds[MAX_NUMBER_SUB_DIRS][2];
+	int fds[MAX_ROOT_SUBDIRS][2];
 	int numberOfSubDirs = 0;
 
+	ino_t iNodes[MAX_ROOT_SUBDIRS];
+	int iNodesIndex = 0;
 
 	// Iterate through root dir and spawn children as neccessary
 	struct dirent* entry;
 	while ((entry = readdir(dr)) != NULL) {
 		if (!strcmp(entry->d_name, ".") || !strcmp(entry->d_name, "..")) continue;
-		
-		char *filePath = (char*) malloc(sizeof(char) * STRING_BUFFER);
+		if (addINodeToListIfUnique(iNodes, MAX_ROOT_SUBDIRS, iNodesIndex, entry->d_ino) == 0) continue;
+		iNodesIndex++;
+
+		char *filePath = (char*) malloc(sizeof(char) * MAX_PATH_LENGTH);
 		sprintf(filePath, "%s/%s", path, entry->d_name);
 
 		struct stat* entryStats = (struct stat*) malloc(sizeof(struct stat));
@@ -102,7 +101,7 @@ int main(int argc, char** argv){
 		wait(NULL);
 	}
 
-	long int buffSize = sizeof(char) * PIPE_READ_SIZE;
+	long int buffSize = sizeof(char) * MAX_READ_LENGTH;
 	char* rcv_buffer = (char*) malloc(sizeof(char) * buffSize);
 	//Read pipes of all children and print to stdout
 	//Assumption : Pipe never gets full

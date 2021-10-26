@@ -1,11 +1,10 @@
-#include<stdio.h>
+#include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include<sys/wait.h>
+#include <sys/wait.h>
 #include <unistd.h>
-#include <dirent.h>
-#include<string.h>
-#include<stdlib.h>
+#include <string.h>
+#include <stdlib.h>
 #include "utils.h"
 
 
@@ -19,16 +18,22 @@
 
 */
 void dirTraverse(const char *name, char * pattern)
-{
-	extern int STRING_BUFFER;
+{	
 	DIR *dir = opendir(name);
 	struct dirent *entry;
+
+	
+	ino_t iNodes[MAX_ROOT_SUBDIRS];
+	int iNodesIndex = 0;
 
 	// Recursively traverse the directory and call SearchForPattern when neccessary
 	while ((entry = readdir(dir)) != NULL) {
 		if (!strcmp(entry->d_name, ".") || !strcmp(entry->d_name, "..")) continue;
+		if (addINodeToListIfUnique(iNodes, MAX_ROOT_SUBDIRS, iNodesIndex, entry->d_ino) == 0) continue;
 
-		char *filePath = (char*)malloc(sizeof(char) * STRING_BUFFER);
+		iNodesIndex++;
+
+		char *filePath = (char*)malloc(sizeof(char) * MAX_PATH_LENGTH);
 		sprintf(filePath, "%s/%s", name, entry->d_name);
 
 		struct stat* entryStats = (struct stat*) malloc(sizeof(struct stat));
@@ -42,7 +47,7 @@ void dirTraverse(const char *name, char * pattern)
 			}
 		} else {
 			// This means a symbolic link was found
-			char buffer[STRING_BUFFER];
+			char buffer[MAX_PATH_LENGTH];
 			sprintf(buffer, "%s was a symbolic link", filePath);
 			write(STDOUT_FILENO, buffer, strlen(buffer));
 		}
@@ -52,10 +57,7 @@ void dirTraverse(const char *name, char * pattern)
 }
 
 int main(int argc, char** argv){
-	extern int STRING_BUFFER;
 	extern int WRITE_FD;
-
-	int dataSize = sizeof(char) * STRING_BUFFER;
 
 	if(argc !=3){
 		fprintf(stderr,"Child process : %d recieved %d arguments, expected 3 \n",getpid(), argc);
@@ -65,7 +67,7 @@ int main(int argc, char** argv){
 
 	char* path = argv[1];
 	char* pattern = argv[2];
-	char buffer[STRING_BUFFER];
+	char buffer[MAX_PATH_LENGTH];
 	
 	sprintf(buffer, "Child process: %d received path: %s\n", getpid(), path);
 
