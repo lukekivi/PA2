@@ -36,7 +36,6 @@ void searchPatternInFile(char* path, char* pattern) {
 					char buffer[MAX_PATH_LENGTH];
 					sprintf(buffer, "%s: %s", path, line);
 					write(WRITE_FD, buffer, strlen(buffer));				
-					fprintf(stderr, "%s", buffer);
 			}
 		}
 	}
