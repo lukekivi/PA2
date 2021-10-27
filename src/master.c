@@ -86,10 +86,8 @@ int main(int argc, char** argv){
 			// This is a non-directory and non-symbolic link file
 			searchPatternInFile(filePath, pattern);
 		} 
-	} else {
-		// This means a symbolic link was found
-		printf("%s was a symbolic link\n", filePath);
 	}
+	
 	free(entryStats);
 	free(filePath);
 }
