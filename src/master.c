@@ -101,16 +101,19 @@ int main(int argc, char** argv){
 		wait(NULL);
 	}
 
-	long int buffSize = sizeof(char) * MAX_READ_LENGTH;
-	char* rcv_buffer = (char*) malloc(sizeof(char) * buffSize);
+	size_t stringBuffer = MAX_PATH_LENGTH * 2;
+	char* rcv_buffer = NULL;
+	
 	//Read pipes of all children and print to stdout
 	//Assumption : Pipe never gets full
 	for (int i = 0; i < numberOfSubDirs; i++) {
-		while (read(fds[i][0], rcv_buffer, buffSize) > 0) {	
+		FILE* fp = fdopen(fds[i][0], "r");
+		while (getline(&rcv_buffer, &stringBuffer, fp) > 0) {	
 				printf("%s", rcv_buffer);
 		}
 		// done reading
 		close(fds[i][0]);
+		fclose(fp);
 	}
 
 	free(rcv_buffer);

@@ -3,5 +3,7 @@ make[1]: Entering directory '/home/oscar/CSCI 4061/PA2'
 input/ip3/ComfortablyNumb.txt: Just nod if you can hear me
 input/ip3/ComfortablyNumb.txt: Can you show me where it hurts?
 input/ip3/StairwayToHeaven.txt: And it makes me wonder
-Child process: 27755 received path: input/ip3/Coldplay
+Child process: 7311 received path: input/ip3/Coldplay
+input/ip3/Coldplay/VivaLaVida_By_Coldplay.txt: Next the walls were closed on me
+input/ip3/Coldplay/VivaLaVida_By_Coldplay.txt: Blew down the doors to let me in
 make[1]: Leaving directory '/home/oscar/CSCI 4061/PA2'
