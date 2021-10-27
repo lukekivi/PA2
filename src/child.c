@@ -17,21 +17,14 @@
 	Note: Feel free to modify the function header if neccessary
 
 */
-void dirTraverse(const char *name, char * pattern)
-{	
+void dirTraverse(const char *name, char * pattern, ino_t** iNodes, int* iNodesIndex) {	
 	DIR *dir = opendir(name);
 	struct dirent *entry;
-
-	
-	ino_t iNodes[MAX_ROOT_SUBDIRS];
-	int iNodesIndex = 0;
 
 	// Recursively traverse the directory and call SearchForPattern when neccessary
 	while ((entry = readdir(dir)) != NULL) {
 		if (!strcmp(entry->d_name, ".") || !strcmp(entry->d_name, "..")) continue;
 		if (addINodeToListIfUnique(iNodes, MAX_ROOT_SUBDIRS, iNodesIndex, entry->d_ino) == 0) continue;
-
-		iNodesIndex++;
 
 		char *filePath = (char*)malloc(sizeof(char) * MAX_PATH_LENGTH);
 		sprintf(filePath, "%s/%s", name, entry->d_name);
@@ -41,7 +34,7 @@ void dirTraverse(const char *name, char * pattern)
 
 		if(!S_ISLNK(entryStats->st_mode)) {			
 			if (entry->d_type == DT_DIR) {
-				dirTraverse(filePath, pattern);
+				dirTraverse(filePath, pattern, iNodes, iNodesIndex);
 			} else {
 				searchPatternInFile(filePath, pattern);
 			}
@@ -72,8 +65,13 @@ int main(int argc, char** argv){
 	sprintf(buffer, "Child process: %d received path: %s\n", getpid(), path);
 	write(WRITE_FD, buffer, strlen(buffer));
 
-	dirTraverse(path,pattern);
+	ino_t* iNodes = (ino_t*) malloc(sizeof(ino_t) * MAX_ROOT_SUBDIRS);
+	int iNodesIndex = 0;
+
+	dirTraverse(path,pattern, &iNodes, &iNodesIndex);
 	close(WRITE_FD);
+
+	free(iNodes);
 
 	return(EXIT_SUCCESS);
 }
