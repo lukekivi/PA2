@@ -17,7 +17,7 @@
 	Note: Feel free to modify the function header if neccessary
 
 */
-void dirTraverse(const char *name, char * pattern, ino_t** iNodes, int* iNodesIndex) {	
+void dirTraverse(const char *name, char * pattern, ino_t** iNodes, int* iNodesIndex, int* sizeOfINodes) {	
 	DIR *dir = opendir(name);
 	struct dirent *entry;
 
@@ -25,6 +25,12 @@ void dirTraverse(const char *name, char * pattern, ino_t** iNodes, int* iNodesIn
 	while ((entry = readdir(dir)) != NULL) {
 		if (!strcmp(entry->d_name, ".") || !strcmp(entry->d_name, "..")) continue;
 		if (addINodeToListIfUnique(iNodes, MAX_ROOT_SUBDIRS, iNodesIndex, entry->d_ino) == 0) continue;
+		
+		// If iNodes is full, resize it.
+		if (*iNodesIndex == *sizeOfINodes) {
+			*sizeOfINodes *= 2;
+			*iNodes = (ino_t*) realloc(*iNodes, *sizeOfINodes);
+		}
 
 		char *filePath = (char*)malloc(sizeof(char) * MAX_PATH_LENGTH);
 		sprintf(filePath, "%s/%s", name, entry->d_name);
@@ -34,7 +40,7 @@ void dirTraverse(const char *name, char * pattern, ino_t** iNodes, int* iNodesIn
 
 		if(!S_ISLNK(entryStats->st_mode)) {			
 			if (entry->d_type == DT_DIR) {
-				dirTraverse(filePath, pattern, iNodes, iNodesIndex);
+				dirTraverse(filePath, pattern, iNodes, iNodesIndex, sizeOfINodes);
 			} else {
 				searchPatternInFile(filePath, pattern);
 			}
@@ -61,10 +67,12 @@ int main(int argc, char** argv){
 	sprintf(buffer, "Child received path: %s\n", path);
 	write(WRITE_FD, buffer, strlen(buffer));
 
-	ino_t* iNodes = (ino_t*) malloc(sizeof(ino_t) * MAX_ROOT_SUBDIRS);
+
+	int sizeOfInodes = sizeof(ino_t) * MAX_ROOT_SUBDIRS;
+	ino_t* iNodes = (ino_t*) malloc(sizeOfInodes);
 	int iNodesIndex = 0;
 
-	dirTraverse(path,pattern, &iNodes, &iNodesIndex);
+	dirTraverse(path,pattern, &iNodes, &iNodesIndex, &sizeOfInodes);
 	close(WRITE_FD);
 
 	free(iNodes);
