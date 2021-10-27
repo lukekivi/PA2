@@ -38,12 +38,8 @@ void dirTraverse(const char *name, char * pattern, ino_t** iNodes, int* iNodesIn
 			} else {
 				searchPatternInFile(filePath, pattern);
 			}
-		} else {
-			// This means a symbolic link was found
-			char buffer[MAX_PATH_LENGTH];
-			sprintf(buffer, "%s was a symbolic link", filePath);
-			write(STDOUT_FILENO, buffer, strlen(buffer));
-		}
+		} 
+		
 		free(filePath);
 		free(entryStats);
 	}
@@ -60,9 +56,9 @@ int main(int argc, char** argv){
 
 	char* path = argv[1];
 	char* pattern = argv[2];
-	char buffer[MAX_PATH_LENGTH];
+	char buffer[MAX_PATH_LENGTH + 22];
 	
-	sprintf(buffer, "Child process: %d received path: %s\n", getpid(), path);
+	sprintf(buffer, "Child received path: %s\n", path);
 	write(WRITE_FD, buffer, strlen(buffer));
 
 	ino_t* iNodes = (ino_t*) malloc(sizeof(ino_t) * MAX_ROOT_SUBDIRS);
