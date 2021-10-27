@@ -45,12 +45,13 @@ void searchPatternInFile(char* path, char* pattern) {
 }
 
 
-int addINodeToListIfUnique(ino_t arr[], int size, int end, ino_t iNode) {
-	for (int i = 0; i < end+1; i++) {
-		if (iNode == arr[i]) {
+int addINodeToListIfUnique(ino_t** arr, int size, int* end, ino_t iNode) {
+	for (int i = 0; i < *end; i++) {
+		if (iNode == ((*arr)[i])) {
 			return 0;
 		}
 	}
-	arr[end+1] = iNode;
+	((*arr)[*end]) = iNode;
+	*end = *end + 1;
 	return 1;
 }

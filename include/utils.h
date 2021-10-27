@@ -28,6 +28,6 @@ void searchPatternInFile(char* path, char* pattern);
  * @param iNode the iNode element to add
  * @return      1 if element was added, 0 if it wasn't
  */
-int addINodeToListIfUnique(ino_t arr[], int size, int end, ino_t iNode);
+int addINodeToListIfUnique(ino_t** arr, int size, int* end, ino_t iNode);
 
 #endif

@@ -30,15 +30,14 @@ int main(int argc, char** argv){
 	int fds[MAX_ROOT_SUBDIRS][2];
 	int numberOfSubDirs = 0;
 
-	ino_t iNodes[MAX_ROOT_SUBDIRS];
+	ino_t* iNodes = (ino_t*) malloc(sizeof(ino_t) * MAX_ROOT_SUBDIRS);
 	int iNodesIndex = 0;
 
 	// Iterate through root dir and spawn children as neccessary
 	struct dirent* entry;
 	while ((entry = readdir(dr)) != NULL) {
 		if (!strcmp(entry->d_name, ".") || !strcmp(entry->d_name, "..")) continue;
-		if (addINodeToListIfUnique(iNodes, MAX_ROOT_SUBDIRS, iNodesIndex, entry->d_ino) == 0) continue;
-		iNodesIndex++;
+		if (addINodeToListIfUnique(&iNodes, MAX_ROOT_SUBDIRS, &iNodesIndex, entry->d_ino) == 0) continue;
 
 		char *filePath = (char*) malloc(sizeof(char) * MAX_PATH_LENGTH);
 		sprintf(filePath, "%s/%s", path, entry->d_name);
@@ -117,6 +116,7 @@ int main(int argc, char** argv){
 	}
 
 	free(rcv_buffer);
+	free(iNodes);
 
 	return 0;
 }
