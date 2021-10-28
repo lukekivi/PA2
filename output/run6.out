@@ -1,8 +1,7 @@
-make[1]: Entering directory '/home/oscar/CSCI 4061/PA2'
+make[1]: Entering directory '/home/viet/UMN/4061_f21/hw2/PA2'
 ./master input/ip6 just
 input/ip6/Warriors.txt: But it was just a dream!
-Child process: 7328 received path: input/ip6/f1
 input/ip6/f1/f2/f3/ITookAPillInIbiza.txt: I drive a sports car just to prove
 input/ip6/f1/f2/f3/ITookAPillInIbiza.txt: I'm just a singer who already blew his shot
 input/ip6/f1/f2/Everglow.txt: Oh, what I would give for just a moment to hold
-make[1]: Leaving directory '/home/oscar/CSCI 4061/PA2'
+make[1]: Leaving directory '/home/viet/UMN/4061_f21/hw2/PA2'

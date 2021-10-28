@@ -1,4 +1,4 @@
-make[1]: Entering directory '/home/oscar/CSCI 4061/PA2'
+make[1]: Entering directory '/home/viet/UMN/4061_f21/hw2/PA2'
 ./master input/ip1 Imagine
 input/ip1/Imagine_By_Lennon.txt: Imagine there's no heaven
 input/ip1/Imagine_By_Lennon.txt: Imagine all the people
@@ -6,4 +6,4 @@ input/ip1/Imagine_By_Lennon.txt: Imagine there's no countries
 input/ip1/Imagine_By_Lennon.txt: Imagine all the people
 input/ip1/Imagine_By_Lennon.txt: Imagine no possessions
 input/ip1/Imagine_By_Lennon.txt: Imagine all the people
-make[1]: Leaving directory '/home/oscar/CSCI 4061/PA2'
+make[1]: Leaving directory '/home/viet/UMN/4061_f21/hw2/PA2'

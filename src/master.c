@@ -1,3 +1,7 @@
+/*test machine: csel-broccoli.cselabs.umn.edu
+ * group number: G[45]
+ * name: Lucas Kivi, Dallas Schauer, Viet Nguyen
+ * x500: kivix019, schau364, nguy4471 */
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -19,21 +23,20 @@ int main(int argc, char** argv){
 	char* path = argv[1];
 	char* pattern = argv[2];
 
-	//Declare any other neccessary variables
-
+	//Declare any other necessary variables
 	pid_t pid;
 	int childProcesses = 0;
 
-	//Open root directory
-
-	DIR *dr = opendir(path);
 	int fds[MAX_ROOT_SUBDIRS][2];
 	int numberOfSubDirs = 0;
 
 	ino_t* iNodes = (ino_t*) malloc(sizeof(ino_t) * MAX_ROOT_SUBDIRS);
 	int iNodesIndex = 0;
 
-	// Iterate through root dir and spawn children as neccessary
+	// Open root directory
+	DIR *dr = opendir(path);
+
+	// Iterate through root dir and spawn children as necessary
 	struct dirent* entry;
 	while ((entry = readdir(dr)) != NULL) {
 		if (!strcmp(entry->d_name, ".") || !strcmp(entry->d_name, "..")) continue;
@@ -64,9 +67,10 @@ int main(int argc, char** argv){
 
 					//Do I/o redirection for child
 					if (dup2(fds[numberOfSubDirs][1], WRITE_FD) == -1) {
-						fprintf(stderr, "ERROR: Failed to exec child program\n.");
+						fprintf(stderr, "ERROR: Failed to redirect child program\n.");
 						exit(EXIT_FAILURE);
 					}
+					// close pipes
 					close(fds[numberOfSubDirs][0]);
 					close(fds[numberOfSubDirs][1]);
 
@@ -78,19 +82,18 @@ int main(int argc, char** argv){
 				} else {
 					childProcesses++; // increment here so root process knows.
 					// Parent
-					// read from pipe
+					// read from pipe, so close write end
 					close(fds[numberOfSubDirs][1]);
 				} 
-			numberOfSubDirs += 1;
-		} else {
-			// This is a non-directory and non-symbolic link file
-			searchPatternInFile(filePath, pattern);
-		} 
+				numberOfSubDirs += 1;
+			} else {
+				// This is a non-directory and non-symbolic link file
+				searchPatternInFile(filePath, pattern);
+			} 
+		}
+		free(entryStats);
+		free(filePath);
 	}
-	
-	free(entryStats);
-	free(filePath);
-}
 	closedir(dr);
 
 	//Wait for all children to complete

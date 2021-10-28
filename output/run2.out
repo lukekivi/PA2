@@ -1,6 +1,5 @@
-make[1]: Entering directory '/home/oscar/CSCI 4061/PA2'
+make[1]: Entering directory '/home/viet/UMN/4061_f21/hw2/PA2'
 ./master input/ip2 I
-Child process: 7307 received path: input/ip2/folder1
 input/ip2/folder1/ComfortablyNumb.txt: Is there anybody in there?
 input/ip2/folder1/ComfortablyNumb.txt: Is there anyone home?
 input/ip2/folder1/ComfortablyNumb.txt: I hear you're feeling down
@@ -49,4 +48,4 @@ input/ip2/folder1/StairwayToHeaven.txt: There's a feeling I get when I look to t
 input/ip2/folder1/StairwayToHeaven.txt: In my thoughts I have seen rings of smoke through the trees
 input/ip2/folder1/StairwayToHeaven.txt: If there's a bustle in your hedgerow, don't be alarmed now
 input/ip2/folder1/StairwayToHeaven.txt: It's just a spring clean for the May queen
-make[1]: Leaving directory '/home/oscar/CSCI 4061/PA2'
+make[1]: Leaving directory '/home/viet/UMN/4061_f21/hw2/PA2'

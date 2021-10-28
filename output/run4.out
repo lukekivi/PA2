@@ -1,17 +1,13 @@
-make[1]: Entering directory '/home/oscar/CSCI 4061/PA2'
+make[1]: Entering directory '/home/viet/UMN/4061_f21/hw2/PA2'
 ./master input/ip4 they
 input/ip4/LegendsNeverDie.txt: It's deep in their bones, they'll run into smoke
+input/ip4/LegendsNeverDie.txt: They become a part of you (they become a part of you)
 input/ip4/LegendsNeverDie.txt: When everything's lost, they pick up their hearts
 input/ip4/LegendsNeverDie.txt: Before it all starts, they suffer through harm
-Child process: 7315 received path: input/ip4/folder4
+input/ip4/LegendsNeverDie.txt: They become a part of you (they become a part of you)
+input/ip4/LegendsNeverDie.txt: They become a part of you (they become a part of you)
 input/ip4/folder4/WhateverItTakes.txt: Everybody hoping they could be the one
-Child process: 7316 received path: input/ip4/Folder2
-Child process: 7317 received path: input/ip4/folder1
-Child process: 7318 received path: input/ip4/folder3
 input/ip4/folder3/Everglow.txt: Oh, they say people come
-Child process: 7319 received path: input/ip4/folder5
 input/ip4/folder5/Believer.txt: Whoever call me out, they simply can't count
 input/ip4/folder5/Believer.txt: But they never did, ever lived, ebbing and flowing
-Child process: 7320 received path: input/ip4/folder7
-Child process: 7321 received path: input/ip4/folder6
-make[1]: Leaving directory '/home/oscar/CSCI 4061/PA2'
+make[1]: Leaving directory '/home/viet/UMN/4061_f21/hw2/PA2'

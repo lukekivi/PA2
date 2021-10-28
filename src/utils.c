@@ -1,3 +1,7 @@
+/*test machine: csel-broccoli.cselabs.umn.edu
+ * group number: G[45]
+ * name: Lucas Kivi, Dallas Schauer, Viet Nguyen
+ * x500: kivix019, schau364, nguy4471 */
 #include <stdio.h>
 #include <sys/types.h>
 #include <stdlib.h>
@@ -42,7 +46,7 @@ void searchPatternInFile(char* path, char* pattern) {
 	fclose(fd_in);
 }
 
-
+// Extra credit
 int addINodeToListIfUnique(ino_t** arr, int size, int* end, ino_t iNode) {
 	for (int i = 0; i < *end; i++) {
 		if (iNode == ((*arr)[i])) {

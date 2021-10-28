@@ -1,12 +1,17 @@
-make[1]: Entering directory '/home/oscar/CSCI 4061/PA2'
+make[1]: Entering directory '/home/viet/UMN/4061_f21/hw2/PA2'
 ./master input/ip8 word
-Child process: 7335 received path: input/ip8/folder1
 input/ip8/folder1/folder2/Viva2.txt: Seas would rise when I gave the word
+input/ip8/folder1/folder2/Viva2.txt: Be my mirror, my sword and shield
 input/ip8/folder1/folder2/Viva2.txt: Never an honest word
+input/ip8/folder1/folder2/Viva2.txt: Be my mirror, my sword and shield
 input/ip8/folder1/folder2/Viva2.txt: Never an honest word
+input/ip8/folder1/folder2/Viva2.txt: Be my mirror, my sword and shield
 input/ip8/folder1/folder2/Viva2.txt: Never an honest word
 input/ip8/folder1/VivaLaVida.txt: Seas would rise when I gave the word
+input/ip8/folder1/VivaLaVida.txt: Be my mirror, my sword and shield
 input/ip8/folder1/VivaLaVida.txt: Never an honest word
+input/ip8/folder1/VivaLaVida.txt: Be my mirror, my sword and shield
 input/ip8/folder1/VivaLaVida.txt: Never an honest word
+input/ip8/folder1/VivaLaVida.txt: Be my mirror, my sword and shield
 input/ip8/folder1/VivaLaVida.txt: Never an honest word
-make[1]: Leaving directory '/home/oscar/CSCI 4061/PA2'
+make[1]: Leaving directory '/home/viet/UMN/4061_f21/hw2/PA2'

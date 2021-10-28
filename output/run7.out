@@ -1,7 +1,17 @@
-make[1]: Entering directory '/home/oscar/CSCI 4061/PA2'
+make[1]: Entering directory '/home/viet/UMN/4061_f21/hw2/PA2'
 ./master input/ip7 word
 input/ip7/VivaRootCopy.txt: Seas would rise when I gave the word
+input/ip7/VivaRootCopy.txt: Be my mirror, my sword and shield
 input/ip7/VivaRootCopy.txt: Never an honest word
+input/ip7/VivaRootCopy.txt: Be my mirror, my sword and shield
 input/ip7/VivaRootCopy.txt: Never an honest word
+input/ip7/VivaRootCopy.txt: Be my mirror, my sword and shield
 input/ip7/VivaRootCopy.txt: Never an honest word
-make[1]: Leaving directory '/home/oscar/CSCI 4061/PA2'
+input/ip7/VivaLaVida.txt: Seas would rise when I gave the word
+input/ip7/VivaLaVida.txt: Be my mirror, my sword and shield
+input/ip7/VivaLaVida.txt: Never an honest word
+input/ip7/VivaLaVida.txt: Be my mirror, my sword and shield
+input/ip7/VivaLaVida.txt: Never an honest word
+input/ip7/VivaLaVida.txt: Be my mirror, my sword and shield
+input/ip7/VivaLaVida.txt: Never an honest word
+make[1]: Leaving directory '/home/viet/UMN/4061_f21/hw2/PA2'
