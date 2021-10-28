@@ -17,7 +17,7 @@ const int WRITE_FD = STDOUT_FILENO;
 void searchPatternInFile(char* path, char* pattern) {
 
 	FILE * fd_in;
-	
+
 	if ((fd_in = fopen(path, "r")) == NULL) {
 		fprintf(stderr,"Error opening file: %s\n",path);
 		return;
