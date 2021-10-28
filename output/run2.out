@@ -1,6 +1,6 @@
 make[1]: Entering directory '/home/oscar/CSCI 4061/PA2'
 ./master input/ip2 I
-Child process: 7307 received path: input/ip2/folder1
+Child received path: input/ip2/folder1
 input/ip2/folder1/ComfortablyNumb.txt: Is there anybody in there?
 input/ip2/folder1/ComfortablyNumb.txt: Is there anyone home?
 input/ip2/folder1/ComfortablyNumb.txt: I hear you're feeling down

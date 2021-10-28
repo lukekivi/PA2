@@ -6,12 +6,13 @@
 #include <dirent.h>
 #include <string.h>
 #include <stdlib.h>
+#include <errno.h>
 #include "utils.h"
 
 
 int main(int argc, char** argv){
 	extern int WRITE_FD;
-
+	
 	if(argc != 3){
 		fprintf(stderr,"Usage ./a.out [Path to Directory] [Pattern to search] \n");
 		exit(EXIT_FAILURE);
@@ -19,40 +20,53 @@ int main(int argc, char** argv){
 	char* path = argv[1];
 	char* pattern = argv[2];
 
-	//Declare any other neccessary variables
+	//Open root directory
+	DIR *dr;
+	if ((dr = opendir(path)) == NULL) {
+		fprintf(stderr, "ERROR: Failed to open directory.");
+		exit(EXIT_FAILURE);
+	}
 
+	
+	//Declare any other neccessary variables
 	pid_t pid;
 	int childProcesses = 0;
 
-	//Open root directory
-
-	DIR *dr = opendir(path);
 	int fds[MAX_ROOT_SUBDIRS][2];
-	int numberOfSubDirs = 0;
 
 	ino_t* iNodes = (ino_t*) malloc(sizeof(ino_t) * MAX_ROOT_SUBDIRS);
 	int iNodesIndex = 0;
 
 	// Iterate through root dir and spawn children as neccessary
 	struct dirent* entry;
+	errno = 0;
 	while ((entry = readdir(dr)) != NULL) {
+		if (errno != 0) {
+			fprintf(stderr, "ERROR: Failed to read from directory.");
+			exit(EXIT_FAILURE);
+		}
+
+		// Avoid self and parent directory
 		if (!strcmp(entry->d_name, ".") || !strcmp(entry->d_name, "..")) continue;
+
+		// Check if we the program has already seen this iNode within this directory
 		if (addINodeToListIfUnique(&iNodes, MAX_ROOT_SUBDIRS, &iNodesIndex, entry->d_ino) == 0) continue;
 
+		// Build current path
 		char *filePath = (char*) malloc(sizeof(char) * MAX_PATH_LENGTH);
 		sprintf(filePath, "%s/%s", path, entry->d_name);
 
 		struct stat* entryStats = (struct stat*) malloc(sizeof(struct stat));
 		lstat(filePath, entryStats);
 		
-		//Process each file/directory in the root dir
+		//Process each file/directory in the root dir given it isn't a symbolic link
 		if(!S_ISLNK(entryStats->st_mode)) {
 
-			//create a child if the file is directory
+			//create a child if the file is a directory
 			if (entry->d_type == DT_DIR) {
 
 				// create pipe
-				if (pipe(fds[numberOfSubDirs]) < 0) {
+				if (pipe(fds[childProcesses]) < 0) {
 					fprintf(stderr, "ERROR: Failed to open pipe\n");
 					exit(EXIT_FAILURE);
 				}
@@ -63,12 +77,13 @@ int main(int argc, char** argv){
 				} else if (pid == 0) {
 
 					//Do I/o redirection for child
-					if (dup2(fds[numberOfSubDirs][1], WRITE_FD) == -1) {
+					if (dup2(fds[childProcesses][1], WRITE_FD) == -1) {
 						fprintf(stderr, "ERROR: Failed to exec child program\n.");
 						exit(EXIT_FAILURE);
 					}
-					close(fds[numberOfSubDirs][0]);
-					close(fds[numberOfSubDirs][1]);
+
+					close(fds[childProcesses][0]);
+					close(fds[childProcesses][1]);
 
 					//Exec child
 					if (execl("child", "child", filePath, pattern, NULL) == -1) {
@@ -76,12 +91,11 @@ int main(int argc, char** argv){
 						exit(EXIT_FAILURE);
 					}		
 				} else {
-					childProcesses++; // increment here so root process knows.
 					// Parent
 					// read from pipe
-					close(fds[numberOfSubDirs][1]);
+					close(fds[childProcesses][1]);
 				} 
-			numberOfSubDirs += 1;
+			childProcesses++; // increment so main process has a child count
 		} else {
 			// This is a non-directory and non-symbolic link file
 			searchPatternInFile(filePath, pattern);
@@ -103,8 +117,11 @@ int main(int argc, char** argv){
 	
 	//Read pipes of all children and print to stdout
 	//Assumption : Pipe never gets full
-	for (int i = 0; i < numberOfSubDirs; i++) {
-		FILE* fp = fdopen(fds[i][0], "r");
+	for (int i = 0; i < childProcesses; i++) {
+		FILE* fp;
+		if ((fp = fdopen(fds[i][0], "r")) == NULL) {
+			fprintf(stderr, "ERROR: Failed to open file descriptor");
+		}
 		while (getline(&rcv_buffer, &stringBuffer, fp) > 0) {	
 				printf("%s", rcv_buffer);
 		}

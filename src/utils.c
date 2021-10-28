@@ -43,12 +43,15 @@ void searchPatternInFile(char* path, char* pattern) {
 }
 
 
+// If iNode doesn't exist within the list, add it. Else return a flag value 0.
 int addINodeToListIfUnique(ino_t** arr, int size, int* end, ino_t iNode) {
 	for (int i = 0; i < *end; i++) {
 		if (iNode == ((*arr)[i])) {
 			return 0;
 		}
 	}
+
+	// add iNode to the end of the list and increment the index
 	((*arr)[*end]) = iNode;
 	*end = *end + 1;
 	return 1;
