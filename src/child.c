@@ -1,3 +1,8 @@
+/*test machine: csel-broccoli.cselabs.umn.edu
+ * group number: G[45]
+ * name: Lucas Kivi, Dallas Schauer, Viet Nguyen
+ * x500: kivix019, schau364, nguy4471 */
+
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
