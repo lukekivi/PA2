@@ -25,7 +25,7 @@
 	> make run1
 	> make run2 
 	...
-	> make run9
+	> make run8
 
 ## Result
 You can compare the expected output with grep command output
